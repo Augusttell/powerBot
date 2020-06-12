@@ -14,7 +14,7 @@ import java.util.ArrayList;
 
 
 public class CombinationRuneCrafter extends PollingScript implements PaintListener {
-    ArrayList<Common.Task> tasks = new ArrayList<Common.Task>();
+    ArrayList<Common.Task> tasks = new ArrayList<>();
     int exp=0;
     Common.ExperienceTracker experienceTracker = new Common.ExperienceTracker((ClientContext) ctx);
 
@@ -42,8 +42,7 @@ public class CombinationRuneCrafter extends PollingScript implements PaintListen
             if(T.activate()) {
                 T.execute();
             }
-            exp = experienceTracker.gainedXPPerHour(Skill.SMITHING);
-
+            exp = experienceTracker.gainedXPPerHour(Skill.RUNECRAFTING);
         }
 
     }

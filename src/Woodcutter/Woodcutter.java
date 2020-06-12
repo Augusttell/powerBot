@@ -2,6 +2,7 @@ package Woodcutter;
 
 
 import Common.BotRandom;
+import Common.Skill;
 import org.powerbot.script.PaintListener;
 import org.powerbot.script.PollingScript;
 import org.powerbot.script.Script;
@@ -17,8 +18,10 @@ import java.util.ArrayList;
 
 public class Woodcutter extends PollingScript implements PaintListener {
     // todo set mouse speeds
-    ArrayList<Common.Task> tasks = new ArrayList<Common.Task>();
+    ArrayList<Common.Task> tasks = new ArrayList<>();
+    int exp=0;
     BotRandom botRandom = new BotRandom((ClientContext) ctx);
+    Common.ExperienceTracker experienceTracker = new Common.ExperienceTracker((ClientContext) ctx);
 
     @Override
     public void start() {
@@ -29,6 +32,7 @@ public class Woodcutter extends PollingScript implements PaintListener {
 
         GoBank goBank = new GoBank((ClientContext) ctx);
         CutTrees cutTrees = new CutTrees((ClientContext) ctx);
+        experienceTracker.startAll(); // Start tracking all skills
 
         tasks.add(goBank);
         tasks.add(cutTrees);
@@ -47,6 +51,7 @@ public class Woodcutter extends PollingScript implements PaintListener {
             if(T.activate()) {
                 T.execute();
             }
+            exp = experienceTracker.gainedXPPerHour(Skill.WOODCUTTING);
         }
     }
 
@@ -58,7 +63,7 @@ public class Woodcutter extends PollingScript implements PaintListener {
 
         graphics.setColor(new Color(255,255,255));
         graphics.drawRect(0, 0, 350, 100); // Make outline
-        graphics.drawString("Goblin Killer: exp gained: ", 20, 20);
+        graphics.drawString("Woodcutter: exp gained: " + exp, 20, 20);
     }
 
     // What happeneds when we suspend

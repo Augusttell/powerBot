@@ -16,7 +16,7 @@ import java.util.ArrayList;
 
 
 public class BlastFurnace extends PollingScript implements PaintListener {
-    ArrayList<Common.Task> tasks = new ArrayList<Common.Task>();
+    ArrayList<Common.Task> tasks = new ArrayList<>();
     int exp=0;
     Common.ExperienceTracker experienceTracker = new Common.ExperienceTracker((ClientContext) ctx);
 
@@ -43,8 +43,9 @@ public class BlastFurnace extends PollingScript implements PaintListener {
             if(T.activate()) {
                 T.execute();
             }
+            exp = experienceTracker.gainedXPPerHour(Skill.SMITHING);
+
         }
-        exp = experienceTracker.gainedXPPerHour(Skill.SMITHING);
 
     }
 
