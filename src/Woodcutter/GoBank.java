@@ -1,14 +1,14 @@
 package Woodcutter;
 
-import CombinationRuneCrafter.Walker;
-import CombinationRuneCrafter.BotRandom;
+import Common.Walker;
+import Common.BotRandom;
 import org.powerbot.script.Condition;
 import org.powerbot.script.Tile;
 import org.powerbot.script.rt4.ClientContext;
 
 import java.util.concurrent.Callable;
 
-public class GoBank extends Task{
+public class GoBank extends Common.Task{
     Walker walker = new Walker(ctx);
     BotRandom botRandom = new BotRandom(ctx);
 

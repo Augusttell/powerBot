@@ -1,5 +1,6 @@
 package CombinationRuneCrafter;
 
+import Common.BotRandom;
 import org.powerbot.script.Condition;
 import org.powerbot.script.Tile;
 import org.powerbot.script.rt4.ClientContext;
@@ -11,7 +12,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.Callable;
 
-public class ReturnToBank extends Task{
+public class ReturnToBank extends Common.Task{
     BotRandom botRandom = new BotRandom(ctx);
 
     int fullRingID = 2552;

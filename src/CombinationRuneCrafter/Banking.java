@@ -1,12 +1,13 @@
 package CombinationRuneCrafter;
 
+import Common.BotRandom;
 import org.powerbot.script.Condition;
 import org.powerbot.script.rt4.Bank;
 import org.powerbot.script.rt4.ClientContext;
 
 import java.util.concurrent.Callable;
 
-public class Banking extends Task{
+public class Banking extends Common.Task{
     int airTalisman = 1438;
     int airRunes = 556;
     int pureEss = 7936;
@@ -29,7 +30,7 @@ public class Banking extends Task{
         if(ctx.bank.opened() && !ctx.inventory.select().id(smokeRune).isEmpty()) {
             System.out.println("Started Depositing runes");
 
-            botRandom.randMissClickLastPress(1.67,true,2,0,1,0);
+            //botRandom.randMissClickLastPress(1.67,true,2,0,1,0);
 
             ctx.bank.deposit(smokeRune, Bank.Amount.ALL);
             Condition.wait(new Callable<Boolean>() {

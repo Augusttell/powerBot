@@ -1,5 +1,8 @@
-package CombinationRuneCrafter;
+package BlastFurnace;
 
+import CombinationRuneCrafter.Banking;
+import CombinationRuneCrafter.ReturnToBank;
+import CombinationRuneCrafter.WalkToAltar;
 import Common.Skill;
 import org.powerbot.script.PaintListener;
 import org.powerbot.script.PollingScript;
@@ -9,11 +12,10 @@ import org.powerbot.script.rt4.ClientContext;
 import java.awt.*;
 import java.util.ArrayList;
 
+@Script.Manifest(name = "BlastFurnace", description = "Uses the blast furnace to create bars")
 
-@Script.Manifest(name = "CombinationRuneCrafter", description = "Make combination runes")
 
-
-public class CombinationRuneCrafter extends PollingScript implements PaintListener {
+public class BlastFurnace extends PollingScript implements PaintListener {
     ArrayList<Common.Task> tasks = new ArrayList<Common.Task>();
     int exp=0;
     Common.ExperienceTracker experienceTracker = new Common.ExperienceTracker((ClientContext) ctx);
@@ -22,10 +24,9 @@ public class CombinationRuneCrafter extends PollingScript implements PaintListen
     public void start() {
         super.start();
         System.out.println("Script started");
-        //System.out.println(ctx.input.speed());
-
         ctx.input.speed(25+ctx.input.speed());
         System.out.println(15+ctx.input.speed());
+
         Banking banking = new Banking((ClientContext) ctx);
         ReturnToBank returnToBank = new ReturnToBank((ClientContext) ctx);
         WalkToAltar walkToAlter = new WalkToAltar((ClientContext) ctx);
@@ -42,9 +43,8 @@ public class CombinationRuneCrafter extends PollingScript implements PaintListen
             if(T.activate()) {
                 T.execute();
             }
-            exp = experienceTracker.gainedXPPerHour(Skill.SMITHING);
-
         }
+        exp = experienceTracker.gainedXPPerHour(Skill.SMITHING);
 
     }
 
@@ -56,7 +56,7 @@ public class CombinationRuneCrafter extends PollingScript implements PaintListen
 
         graphics.setColor(new Color(255,255,255));
         graphics.drawRect(0, 0, 350, 100); // Make outline
-        graphics.drawString("Runecrafting exp gained: " + exp, 20, 20);
+        graphics.drawString("Smithing exp gained: " + exp, 20, 20);
     }
 
     // What happeneds when we suspend

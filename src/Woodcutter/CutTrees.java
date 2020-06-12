@@ -2,13 +2,13 @@ package Woodcutter;
 
 import org.powerbot.script.Condition;
 import org.powerbot.script.rt4.ClientContext;
-import CombinationRuneCrafter.BotRandom;
+import Common.BotRandom;
 import org.powerbot.script.rt4.Game;
 import org.powerbot.script.rt4.GameObject;
 
 import java.util.concurrent.Callable;
 
-public class CutTrees extends Task{
+public class CutTrees extends Common.Task{
     private int [] oakTreeIds = {10820};
     private int [] willowTreeIds = {10819};
 

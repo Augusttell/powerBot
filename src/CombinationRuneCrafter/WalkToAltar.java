@@ -1,12 +1,14 @@
 package CombinationRuneCrafter;
 
+import Common.BotRandom;
+import Common.Walker;
 import org.powerbot.script.Condition;
 import org.powerbot.script.Tile;
 import org.powerbot.script.rt4.*;
 
 import java.util.concurrent.Callable;
 
-public class WalkToAltar extends Task{
+public class WalkToAltar extends Common.Task{
     Walker walker = new Walker(ctx);
     BotRandom botRandom = new BotRandom(ctx);
 

@@ -1,8 +1,9 @@
-package tutorial;
-
-import java.util.LinkedList;
+package Common;
 
 import org.powerbot.script.rt4.ClientContext;
+import Common.Skill;
+
+import java.util.LinkedList;
 
 /**
  * Created by Seth on Oct 24, 2016 at 3:35:32 PM.

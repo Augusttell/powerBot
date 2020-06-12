@@ -1,7 +1,7 @@
 package Woodcutter;
 
 
-import CombinationRuneCrafter.BotRandom;
+import Common.BotRandom;
 import org.powerbot.script.PaintListener;
 import org.powerbot.script.PollingScript;
 import org.powerbot.script.Script;
@@ -17,7 +17,7 @@ import java.util.ArrayList;
 
 public class Woodcutter extends PollingScript implements PaintListener {
     // todo set mouse speeds
-    ArrayList<Task> tasks = new ArrayList<Task>();
+    ArrayList<Common.Task> tasks = new ArrayList<Common.Task>();
     BotRandom botRandom = new BotRandom((ClientContext) ctx);
 
     @Override
@@ -43,7 +43,7 @@ public class Woodcutter extends PollingScript implements PaintListener {
     }
     @Override
     public void poll() {
-        for(Task T : tasks ){
+        for(Common.Task T : tasks ){
             if(T.activate()) {
                 T.execute();
             }

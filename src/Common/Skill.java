@@ -1,4 +1,4 @@
-package CombinationRuneCrafter;
+package Common;
 
 /**
  *
