@@ -1,8 +1,5 @@
 package BlastFurnace;
 
-import CombinationRuneCrafter.Banking;
-import CombinationRuneCrafter.ReturnToBank;
-import CombinationRuneCrafter.WalkToAltar;
 import Common.Skill;
 import org.powerbot.script.PaintListener;
 import org.powerbot.script.PollingScript;
@@ -25,16 +22,13 @@ public class BlastFurnace extends PollingScript implements PaintListener {
         super.start();
         System.out.println("Script started");
         ctx.input.speed(25+ctx.input.speed());
-        System.out.println(15+ctx.input.speed());
 
-        Banking banking = new Banking((ClientContext) ctx);
-        ReturnToBank returnToBank = new ReturnToBank((ClientContext) ctx);
-        WalkToAltar walkToAlter = new WalkToAltar((ClientContext) ctx);
+        DeliverOre deliverOre = new DeliverOre((ClientContext) ctx);
+        CollectBars collectBars = new CollectBars((ClientContext) ctx);
         experienceTracker.startAll(); // Start tracking all skills
 
-        tasks.add(returnToBank);
-        tasks.add(banking);
-        tasks.add(walkToAlter);
+        tasks.add(deliverOre);
+        tasks.add(collectBars);
 
     }
     @Override
