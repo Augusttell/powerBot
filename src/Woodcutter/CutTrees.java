@@ -37,7 +37,7 @@ public class CutTrees extends Common.Task{
              Condition.wait(new Callable<Boolean>() {
                  @Override
                  public Boolean call() throws Exception {
-                     return !ctx.players.local().inMotion();
+                     return ctx.players.local().inMotion();
                  }
              }, 800, 10);
 
@@ -51,7 +51,7 @@ public class CutTrees extends Common.Task{
              Condition.wait(new Callable<Boolean>() {
                  @Override
                  public Boolean call() throws Exception {
-                     return !ctx.players.local().inMotion();
+                     return ctx.players.local().inMotion();
                  }
              }, 500, 100);
 

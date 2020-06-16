@@ -43,7 +43,7 @@ public class GoBank extends Common.Task{
         botRandom.randCamera(0,100,2,-2,5,-5, 1.2);
 
         walker.walkPath(bank);
-        Condition.wait(() -> !ctx.players.local().inMotion(),500, 100);
+        Condition.wait(() -> ctx.players.local().inMotion(),500, 100);
 
         ctx.bank.open();
         Condition.wait(new Callable<Boolean>() {
@@ -67,7 +67,7 @@ public class GoBank extends Common.Task{
         System.out.println("Finished banking returning to trees");
 
         walker.walkPath(trees);
-        Condition.wait(() -> !ctx.players.local().inMotion(),100, 100);
+        Condition.wait(() -> ctx.players.local().inMotion(),100, 100);
 
         botRandom.randCamera(0,100,2,-2,5,-5, 1.2);
 

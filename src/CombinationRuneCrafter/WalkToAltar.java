@@ -44,20 +44,10 @@ public class WalkToAltar extends Common.Task{
         if((Math.abs(ctx.players.local().tile().x() - ruinsTile[0].x()) >= 50) &&
                 (Math.abs(ctx.players.local().tile().x()-altarTile[0].tile().x()) >= 5)) {
             ctx.game.tab(Game.Tab.EQUIPMENT);
-            Condition.wait(new Callable<Boolean>() {
-                @Override
-                public Boolean call() throws Exception {
-                    return ctx.game.tab() == Game.Tab.EQUIPMENT;
-                }
-            }, 50, 100);
+            Condition.wait(() -> ctx.game.tab() == Game.Tab.EQUIPMENT, 50, 100);
 
             ctx.equipment.itemAt(Equipment.Slot.RING).interact("Duel Arena");
-            Condition.wait(new Callable<Boolean>() {
-                @Override
-                public Boolean call() throws Exception {
-                    return !ctx.bank.present();
-                }
-            }, 5, 100);
+            Condition.wait(() -> !ctx.bank.present(), 5, 100);
         }
 
         // Random camera
@@ -72,33 +62,20 @@ public class WalkToAltar extends Common.Task{
 
         // Path to portal
         walker.walkPath(ruinsTile);
-        Condition.wait(new Callable<Boolean>() {
-            @Override
-            public Boolean call() throws Exception {
-                return ctx.objects.select().name("Mysterious ruins").poll().inViewport();
-            }
-        }, 50, 4000);
+        Condition.wait(() -> ctx.objects.select().name("Mysterious ruins").poll().inViewport(), 50, 4000);
 
         GameObject ruins = ctx.objects.select().name("Mysterious ruins").poll();
         // Click portal if viewable
         ruins.interact("Enter");
-        Condition.wait(new Callable<Boolean>() {
-            @Override
-            public Boolean call() throws Exception {
-                    return (Math.abs(altarTile[0].tile().x()-ctx.players.local().tile().x()) <=15);
-                }
-                }, 80, 1000);
+        Condition.wait(() -> (Math.abs(altarTile[0].tile().x()-ctx.players.local().tile().x()) <=15), 80, 1000);
 
         System.out.println("Entering ruins");
 
         // Move towards altar
         walker.walkPath(altarTile);
-        Condition.wait(new Callable<Boolean>() {
-            @Override
-            public Boolean call() throws Exception {
-                return //!ctx.objects.select().name("Altar").poll().inViewport();
-                Math.abs(altarTile[0].tile().x()-ctx.players.local().tile().x()) <=3;
-            }
+        Condition.wait(() -> {
+            return //!ctx.objects.select().name("Altar").poll().inViewport();
+            Math.abs(altarTile[0].tile().x()-ctx.players.local().tile().x()) <=3;
         }, 20, 4000);
 
 
@@ -114,12 +91,7 @@ public class WalkToAltar extends Common.Task{
         while(altar.inViewport() && ctx.inventory.select().id(smokeRune).isEmpty()) {
             airTali.interact("Use");
             altar.interact("Use");
-            Condition.wait(new Callable<Boolean>() {
-                @Override
-                public Boolean call() throws Exception {
-                    return !ctx.inventory.select().id(smokeRune).isEmpty();
-                }
-            }, 60, 100);
+            Condition.wait(() -> !ctx.inventory.select().id(smokeRune).isEmpty(), 60, 100);
         }
 
         System.out.println("Finished crafting runes");

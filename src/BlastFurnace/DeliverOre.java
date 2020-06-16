@@ -35,13 +35,13 @@ public class DeliverOre extends Common.Task{
         walker.walkPath(furnaceTile);
 
         // use ores on furnace
-        airTali.interact("Use");
-        altar.interact("Use");
+        //airTali.interact("Use");
+        //altar.interact("Use");
 
         // empty bag
         // use ores on furnace
-        airTali.interact("Use");
-        altar.interact("Use");
+        //airTali.interact("Use");
+        //altar.interact("Use");
 
         // use on furnace
         // walk back to bank
@@ -62,13 +62,13 @@ public class DeliverOre extends Common.Task{
         walker.walkPath(furnaceTile);
 
         // use ores on furnace
-        airTali.interact("Use");
-        altar.interact("Use");
+       // airTali.interact("Use");
+       // altar.interact("Use");
 
         // empty bag
         // use ores on furnace
-        airTali.interact("Use");
-        altar.interact("Use");
+        //airTali.interact("Use");
+       // altar.interact("Use");
 
         // use on furnace
         // walk back to bank
@@ -89,13 +89,13 @@ public class DeliverOre extends Common.Task{
         walker.walkPath(furnaceTile);
 
         // use ores on furnace
-        airTali.interact("Use");
-        altar.interact("Use");
+        //airTali.interact("Use");
+        //altar.interact("Use");
 
         // empty bag
         // use ores on furnace
-        airTali.interact("Use");
-        altar.interact("Use");
+        //airTali.interact("Use");
+       // altar.interact("Use");
 
         // use on furnace
 

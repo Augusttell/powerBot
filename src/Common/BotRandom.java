@@ -4,6 +4,7 @@ import org.powerbot.script.Condition;
 import org.powerbot.script.Tile;
 import org.powerbot.script.rt4.ClientContext;
 import org.powerbot.script.rt4.Game;
+import org.powerbot.script.rt4.GameObject;
 
 import java.awt.*;
 import java.util.Random;
@@ -14,6 +15,19 @@ public class BotRandom {
 
     public BotRandom(ClientContext ctx) {
         this.ctx = ctx;
+    }
+
+    public void randTurnTo(GameObject gameObject, double chanceZValue, int dev) {
+        Random randomno = new Random();
+        double randNum = randomno.nextGaussian();
+
+        // Chance of happening
+        if(!((-chanceZValue < randNum) && (randNum < chanceZValue))) {
+            ctx.camera.turnTo(gameObject, dev);
+
+            System.out.println("randTurnTo Initated");
+
+        }
     }
 
     public void randSleep(int maxLength, int minLength, double chanceZValue) {
