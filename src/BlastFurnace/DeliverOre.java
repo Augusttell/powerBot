@@ -21,83 +21,83 @@ public class DeliverOre extends Common.Task{
 
     @Override
     public void execute() {
-        final Tile[] barCollectionTile = {botRandom.randTile(Constants.collection.x(), Constants.collection.y(), 0,
-                2, 0, 0, 0 , 0, 0)};
-        final Tile[] furnaceTile = {botRandom.randTile(Constants.furnace.x(), Constants.furnace.y(), 0,
-                2, 0, 0, 0 , 0, 0)};
-
-        /// Trip 1
-        // Withdraw ores
-        ctx.bank.withdraw(Constants.coalOre, Bank.Amount.ALL);
-
-        // fill bag
-        // Walk to furnace
-        walker.walkPath(furnaceTile);
-
-        // use ores on furnace
-        //airTali.interact("Use");
-        //altar.interact("Use");
-
-        // empty bag
-        // use ores on furnace
-        //airTali.interact("Use");
-        //altar.interact("Use");
-
-        // use on furnace
-        // walk back to bank
-        walker.walkPath(barCollectionTile);
-
-        // open bank
-        ctx.bank.open();
-
-        /// Trip 2
-        // Withdraw ores
-        ctx.bank.withdraw(Constants.coalOre, 27);
-
-        // fill bag
-        // Withdraw ores
-        ctx.bank.withdraw(Constants.mithOre, 27);
-
-        // Walk to furnace
-        walker.walkPath(furnaceTile);
-
-        // use ores on furnace
-       // airTali.interact("Use");
-       // altar.interact("Use");
-
-        // empty bag
-        // use ores on furnace
-        //airTali.interact("Use");
-       // altar.interact("Use");
-
-        // use on furnace
-        // walk back to bank
-        walker.walkPath(barCollectionTile);
-
-        // open bank
-        ctx.bank.open();
-
-        /// Trip 3
-        // Withdraw ores
-        ctx.bank.withdraw(Constants.coalOre, 27);
-
-        // fill bag
-        // Withdraw ores
-        ctx.bank.withdraw(Constants.mithOre, 27);
-
-        // Walk to furnace
-        walker.walkPath(furnaceTile);
-
-        // use ores on furnace
-        //airTali.interact("Use");
-        //altar.interact("Use");
-
-        // empty bag
-        // use ores on furnace
-        //airTali.interact("Use");
-       // altar.interact("Use");
-
-        // use on furnace
+//        final Tile[] barCollectionTile = {botRandom.randTile(Constants.collection.x(), Constants.collection.y(), 0,
+//                2, 0, 0, 0 , 0, 0)};
+//        final Tile[] furnaceTile = {botRandom.randTile(Constants.furnace.x(), Constants.furnace.y(), 0,
+//                2, 0, 0, 0 , 0, 0)};
+//
+//        /// Trip 1
+//        // Withdraw ores
+//        ctx.bank.withdraw(Constants.coalOre, Bank.Amount.ALL);
+//
+//        // fill bag
+//        // Walk to furnace
+//        walker.walkPath(furnaceTile);
+//
+//        // use ores on furnace
+//        //airTali.interact("Use");
+//        //altar.interact("Use");
+//
+//        // empty bag
+//        // use ores on furnace
+//        //airTali.interact("Use");
+//        //altar.interact("Use");
+//
+//        // use on furnace
+//        // walk back to bank
+//        walker.walkPath(barCollectionTile);
+//
+//        // open bank
+//        ctx.bank.open();
+//
+//        /// Trip 2
+//        // Withdraw ores
+//        ctx.bank.withdraw(Constants.coalOre, 27);
+//
+//        // fill bag
+//        // Withdraw ores
+//        ctx.bank.withdraw(Constants.mithOre, 27);
+//
+//        // Walk to furnace
+//        walker.walkPath(furnaceTile);
+//
+//        // use ores on furnace
+//       // airTali.interact("Use");
+//       // altar.interact("Use");
+//
+//        // empty bag
+//        // use ores on furnace
+//        //airTali.interact("Use");
+//       // altar.interact("Use");
+//
+//        // use on furnace
+//        // walk back to bank
+//        walker.walkPath(barCollectionTile);
+//
+//        // open bank
+//        ctx.bank.open();
+//
+//        /// Trip 3
+//        // Withdraw ores
+//        ctx.bank.withdraw(Constants.coalOre, 27);
+//
+//        // fill bag
+//        // Withdraw ores
+//        ctx.bank.withdraw(Constants.mithOre, 27);
+//
+//        // Walk to furnace
+//        walker.walkPath(furnaceTile);
+//
+//        // use ores on furnace
+//        //airTali.interact("Use");
+//        //altar.interact("Use");
+//
+//        // empty bag
+//        // use ores on furnace
+//        //airTali.interact("Use");
+//       // altar.interact("Use");
+//
+//        // use on furnace
 
 
     }

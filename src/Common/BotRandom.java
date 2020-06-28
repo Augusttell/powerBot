@@ -29,7 +29,10 @@ public class BotRandom {
 
         }
     }
+    public int randInt(int maxLength, int minLength) {
+        return (int) (Math.random()*((maxLength-minLength)+1))+minLength;
 
+    }
     public void randSleep(int maxLength, int minLength, double chanceZValue) {
         int sleepLength = (int) (Math.random()*((maxLength-minLength)+1))+minLength;
         Random randomno = new Random();
