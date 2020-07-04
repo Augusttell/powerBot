@@ -43,23 +43,13 @@ public class GoBank extends Common.Task{
         botRandom.randCamera(0,100,2,-2,5,-5, 1.2);
 
         walker.walkPath(bank);
-        Condition.wait(() -> ctx.players.local().inMotion(),500, 100);
+        Condition.wait(() -> !ctx.players.local().inMotion(),500, 100);
 
         ctx.bank.open();
-        Condition.wait(new Callable<Boolean>() {
-            @Override
-            public Boolean call() throws Exception {
-                return !ctx.bank.opened();
-            }
-        }, 100, 10);
+        Condition.wait(() -> ctx.bank.opened(), 100, 10);
 
         ctx.bank.depositInventory();
-        Condition.wait(new Callable<Boolean>() {
-            @Override
-            public Boolean call() throws Exception {
-                return ctx.inventory.select().count() == 0;
-            }
-        }, 100, 10);
+        Condition.wait(() -> ctx.inventory.select().count() == 0, 100, 10);
 
         botRandom.randSleep(250000,  5000,  2.1);
         botRandom.randCamera(0,100,2,-2,5,-5, 1.2);
@@ -67,7 +57,7 @@ public class GoBank extends Common.Task{
         System.out.println("Finished banking returning to trees");
 
         walker.walkPath(trees);
-        Condition.wait(() -> ctx.players.local().inMotion(),100, 100);
+        Condition.wait(() -> !ctx.players.local().inMotion(),100, 100);
 
         botRandom.randCamera(0,100,2,-2,5,-5, 1.2);
 

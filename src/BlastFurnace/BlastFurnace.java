@@ -38,7 +38,7 @@ public class BlastFurnace extends PollingScript<ClientContext> implements PaintL
         final Tile[] bankTileRand = {botRandom.randTile(Constants.bankTile.x(), Constants.bankTile.y(), 0,
                 2, 0, 0, 0 , 0, 0)};
 
-        rounds =+1;
+
         switch (state()) {
             case withdrawOres:
                 System.out.println("withdrawOres");
@@ -70,12 +70,18 @@ public class BlastFurnace extends PollingScript<ClientContext> implements PaintL
                 ctx.input.send("{VK_ESCAPE}");
                 Condition.wait(() -> !ctx.bank.opened(), botRandom.randInt(600,100), 2);
 
+                if(ctx.game.tab() != Game.Tab.INVENTORY) {
+                    ctx.game.tab(Game.Tab.INVENTORY);
+                }
                 ctx.inventory.select().id(coalBagID).poll().interact("Fill");
                   // Condition.wait(() -> ctx.inventory.select().id(Constants.coalOreID).isEmpty());
 
                 ctx.bank.open();
                 Condition.wait(() -> !ctx.bank.opened(), botRandom.randInt(600,100), 2);
 
+                if(!ctx.inventory.select().id(coalOreID).isEmpty()) {
+                    ctx.bank.deposit(coalOreID, Bank.Amount.ALL);
+                }
 
                 int energyLevel = ctx.movement.energyLevel();
                 if(energyLevel <= 60) {
@@ -142,8 +148,9 @@ public class BlastFurnace extends PollingScript<ClientContext> implements PaintL
                     }
                 }
 
-                ctx.bank.withdraw(ironOreID, 27);
-                // Condition.wait(() -> !ctx.inventory.select().id(Constants.ironOreID).isEmpty());
+                ctx.bank.withdraw(coalOreID, Bank.Amount.ALL);
+                //Condition.wait(() -> !ctx.inventory.select().id(coalOreID).isEmpty(),
+                //        botRandom.randInt(600,100), 4);
 
                 ctx.input.send("{VK_ESCAPE}");
                 //Condition.wait(() -> !ctx.bank.opened());
@@ -151,7 +158,7 @@ public class BlastFurnace extends PollingScript<ClientContext> implements PaintL
                 break;
 
             case deliverOre:
-                System.out.println("deliverOre");
+               /* System.out.println("deliverOre");
                 GameObject conveyerBelt = ctx.objects.select().id(conveyerBeltID).name("Conveyor belt").poll();
                 conveyerBelt.bounds(-36,36,-192,-260,-44,28);
                 Item coalBag = ctx.inventory.select().id(coalBagID).poll();
@@ -186,6 +193,157 @@ public class BlastFurnace extends PollingScript<ClientContext> implements PaintL
                     Condition.wait(() -> ctx.inventory.select().id(coalOreID).isEmpty(),
                             botRandom.randInt(1200,800), 2);
 
+                }*/
+
+                System.out.println("deliverOre");
+                GameObject conveyerBelt = ctx.objects.select().id(conveyerBeltID).name("Conveyor belt").poll();
+                conveyerBelt.bounds(-36,36,-208,-260,-44,16);
+                Item coalBag = ctx.inventory.select().id(coalBagID).poll();
+
+                // If conveyerbelt not viewable walk there
+                if(!conveyerBelt.inViewport()) {
+                    System.out.println("1");
+
+                    walker.walkPath(bankTileRand);
+                    Condition.wait(() -> !ctx.players.local().inMotion());
+
+                }
+
+                // If we have iron ore in bag, produce bars.
+                if(!ctx.inventory.select().id(adamOreID).isEmpty() || !ctx.inventory.select().id(coalOreID).isEmpty() ) {
+                    System.out.println("2");
+                    while(!ctx.inventory.select().id(adamOreID).isEmpty() ||
+                            !ctx.inventory.select().id(coalOreID).isEmpty()) {
+
+                        conveyerBelt.interact("Put-ore-on");
+                        Condition.wait(() -> ctx.inventory.select().id(coalOreID).isEmpty(),
+                                botRandom.randInt(7000, 6000), 2);
+
+
+                        ctx.input.send("{VK_SHIFT down}");
+                        coalBag.click(true);
+                        ctx.input.send("{VK_SHIFT up}");
+
+                        //conveyerBelt.click(true);
+                        conveyerBelt.interact("Put-ore-on");
+                        Condition.wait(() -> ctx.inventory.select().id(coalOreID).isEmpty(),
+                                botRandom.randInt(600, 100), 2);
+
+                        if (ctx.movement.running() == false) {
+                            ctx.movement.running(true);
+                        }
+                    }
+
+                    ctx.bank.open();
+                    Condition.wait(() -> ctx.bank.opened(),
+                            botRandom.randInt(800,600), 2);
+
+                    ctx.bank.withdraw(coalOreID, 27);
+                    Condition.wait(() -> !ctx.inventory.select().id(coalOreID).isEmpty(),
+                            botRandom.randInt(600,100), 4);
+
+                    ctx.input.send("{VK_ESCAPE}");
+                    Condition.wait(() -> !ctx.bank.opened(), botRandom.randInt(600,100), 2);
+
+                    if(ctx.game.tab() != Game.Tab.INVENTORY) {
+                        ctx.game.tab(Game.Tab.INVENTORY);
+                    }
+
+                    ctx.inventory.select().id(coalBagID).poll().interact("Fill");
+
+                    ctx.bank.open();
+                    Condition.wait(() -> !ctx.bank.opened(), botRandom.randInt(600,100), 2);
+
+                    if(!ctx.inventory.select().id(coalOreID).isEmpty()) {
+                        ctx.bank.deposit(coalOreID, Bank.Amount.ALL);
+                    }
+
+                    energyLevel = ctx.movement.energyLevel();
+                    if(energyLevel <= 60) {
+                        switch (stamState()) {
+                            case pot1:
+                                ctx.bank.withdraw(staminaPotions[0], Bank.Amount.ONE);
+                                Condition.wait(() -> !ctx.inventory.select().id(staminaPotions[0]).isEmpty(),
+                                        botRandom.randInt(500,200), 4);
+                                ctx.inventory.select().id(staminaPotions[0]).poll().interact("Drink");
+                                Condition.wait(() -> ctx.inventory.select().id(staminaPotions[0]).isEmpty(),
+                                        botRandom.randInt(500,200), 4);
+                                ctx.bank.deposit(staminaPotions[2], Bank.Amount.ALL);
+                                ctx.bank.deposit(staminaPotions[1], Bank.Amount.ALL);
+                                ctx.bank.deposit(staminaPotions[0], Bank.Amount.ALL);
+                                ctx.bank.deposit(emptyVial, Bank.Amount.ALL);
+                                Condition.wait(() -> ctx.inventory.id(emptyVial).isEmpty(), 50, 100);
+
+                                break;
+
+                            case pot2:
+                                ctx.bank.withdraw(staminaPotions[1], Bank.Amount.ONE);
+                                Condition.wait(() -> !ctx.inventory.select().id(staminaPotions[1]).isEmpty(),
+                                        botRandom.randInt(500,200), 4);
+                                ctx.inventory.select().id(staminaPotions[1]).poll().interact("Drink");
+                                Condition.wait(() -> ctx.inventory.select().id(staminaPotions[1]).isEmpty(),
+                                        botRandom.randInt(500,200), 4);
+                                ctx.bank.deposit(staminaPotions[2], Bank.Amount.ALL);
+                                ctx.bank.deposit(staminaPotions[1], Bank.Amount.ALL);
+                                ctx.bank.deposit(staminaPotions[0], Bank.Amount.ALL);
+                                ctx.bank.deposit(emptyVial, Bank.Amount.ALL);
+                                Condition.wait(() -> ctx.inventory.id(staminaPotions[0]).isEmpty(), 50, 100);
+                                break;
+
+                            case pot3:
+                                ctx.bank.withdraw(staminaPotions[2], Bank.Amount.ONE);
+                                Condition.wait(() -> !ctx.inventory.select().id(staminaPotions[2]).isEmpty(),
+                                        botRandom.randInt(500,200), 4);
+                                ctx.inventory.select().id(staminaPotions[2]).poll().interact("Drink");
+                                Condition.wait(() -> ctx.inventory.select().id(staminaPotions[2]).isEmpty(),
+                                        botRandom.randInt(500,200), 4);
+                                ctx.bank.deposit(staminaPotions[2], Bank.Amount.ALL);
+                                ctx.bank.deposit(staminaPotions[1], Bank.Amount.ALL);
+                                ctx.bank.deposit(staminaPotions[0], Bank.Amount.ALL);
+                                ctx.bank.deposit(emptyVial, Bank.Amount.ALL);
+                                Condition.wait(() -> ctx.inventory.id(staminaPotions[1]).isEmpty(), 50, 100);
+
+                            case pot4:
+                                ctx.bank.withdraw(staminaPotions[3], Bank.Amount.ONE);
+                                Condition.wait(() -> !ctx.inventory.select().id(staminaPotions[3]).isEmpty(),
+                                        botRandom.randInt(500,200), 4);
+                                ctx.inventory.select().id(staminaPotions[3]).poll().interact("Drink");
+                                Condition.wait(() -> ctx.inventory.select().id(staminaPotions[3]).isEmpty(),
+                                        botRandom.randInt(500,200), 4);
+                                ctx.bank.deposit(staminaPotions[2], Bank.Amount.ALL);
+                                ctx.bank.deposit(staminaPotions[1], Bank.Amount.ALL);
+                                ctx.bank.deposit(staminaPotions[0], Bank.Amount.ALL);
+                                ctx.bank.deposit(emptyVial, Bank.Amount.ALL);
+                                Condition.wait(() -> ctx.inventory.id(staminaPotions[2]).isEmpty(), 50, 100);
+
+                                break;
+
+                            case noPot:
+                                break;
+                        }
+                    }
+                    ctx.bank.withdraw(adamOreID, Bank.Amount.ALL);
+
+                    ctx.input.send("{VK_ESCAPE}");
+
+                    while(!ctx.inventory.select().id(adamOreID).isEmpty() ||
+                            !ctx.inventory.select().id(coalOreID).isEmpty()) {
+                        conveyerBelt.interact("Put-ore-on");
+                        Condition.wait(() -> ctx.inventory.select().id(adamOreID).isEmpty(),
+                                botRandom.randInt(7000,6000), 2);
+
+                            ctx.input.send("{VK_SHIFT down}");
+                            coalBag.click(true);
+                            ctx.input.send("{VK_SHIFT up}");
+
+
+                        //conveyerBelt.click(true);
+                        conveyerBelt.interact("Put-ore-on");
+                        Condition.wait(() -> ctx.inventory.select().id(coalOreID).isEmpty(),
+                                botRandom.randInt(600,100), 2);
+                    }
+
+
                 }
 
                 break;
@@ -195,10 +353,10 @@ public class BlastFurnace extends PollingScript<ClientContext> implements PaintL
                 System.out.println("collectBars");
 
                 GameObject barDispenserFull = ctx.objects.select().name("Bar dispenser").poll();
-                barDispenserFull.bounds(-128,0,-132,-96,-64,64);
+                barDispenserFull.bounds(-108,-16,-132,-84,-40,40);
 
                 // If we have iron ore in bag, produce bars.
-                if(ctx.inventory.select().id(steelBarID).isEmpty()) {
+                if(ctx.inventory.select().id(adamBarID).isEmpty()) {
                     System.out.println("1");
 
                     //walker.walkPath(Constants.barDispenserTile);
@@ -208,7 +366,7 @@ public class BlastFurnace extends PollingScript<ClientContext> implements PaintL
                     barDispenserFull.click(true);
                     Condition.sleep(botRandom.randInt(900,600));
                     ctx.input.send(" ");
-                    Condition.wait(() -> !ctx.inventory.select().id(steelBarID).isEmpty(),
+                    Condition.wait(() -> !ctx.inventory.select().id(adamBarID).isEmpty(),
                             botRandom.randInt(600,100), 2);
 
                     barDispenserFull = ctx.objects.select().id(barDispenserID).poll();
@@ -217,14 +375,22 @@ public class BlastFurnace extends PollingScript<ClientContext> implements PaintL
 
                 }
 
-                while(!ctx.inventory.select().id(steelBarID).isEmpty()) {
+                while(!ctx.inventory.select().id(adamBarID).isEmpty()) {
                     ctx.bank.open();
                     Condition.wait(() -> ctx.bank.opened(),
                             botRandom.randInt(800,600), 2);
 
-                    ctx.bank.deposit(steelBarID, Bank.Amount.ALL);
-                    Condition.wait(() -> ctx.inventory.select().id(steelBarID).isEmpty(),
-                            botRandom.randInt(600,100), 2);
+                    ctx.bank.deposit(adamBarID, Bank.Amount.ALL);
+                    Condition.wait(() -> ctx.inventory.select().id(adamBarID).isEmpty(),
+                            botRandom.randInt(600,100), 3
+                    );
+
+//                    if(!ctx.inventory.select().id(steelBarID).isEmpty()) {
+//                        ctx.bank.deposit(ironBarID, Bank.Amount.ALL);
+//                    }
+
+                    rounds =+1;
+
                 }
 
                 break;
@@ -254,27 +420,38 @@ public class BlastFurnace extends PollingScript<ClientContext> implements PaintL
                 break;
             case error:
                 System.out.println("Error");
+                walker.walkPath(bankTileRand);
+                Condition.wait(() -> !ctx.players.local().inMotion());
+
                 break;
 
         }
+
+
     }
     private State state() {
         if(!ctx.inventory.select().id(coalBagID).isEmpty() &&
-                ctx.inventory.select().id(steelBarID).isEmpty() &&
+                ctx.inventory.select().id(adamBarID).isEmpty() &&
+                //ctx.inventory.select().id(steelBarID).isEmpty() &&
                 ctx.inventory.select().id(coalOreID).isEmpty() &&
-                ctx.inventory.select().id(ironOreID).isEmpty() &&
-                (Math.abs(barDispenserTile[0].tile().x()-ctx.players.local().tile().x()) > 3)) {
+                // ctx.inventory.select().id(ironOreID).isEmpty() &&
+                ctx.inventory.select().id(adamOreID).isEmpty() &&
+                (Math.abs(barDispenserTile[0].tile().x()-ctx.players.local().tile().x()) > 4)) {
             return State.withdrawOres;
 
         } else if(!ctx.inventory.select().id(coalBagID).isEmpty() &&
-                ctx.inventory.select().id(steelBarID).isEmpty() &&
+                ctx.inventory.select().id(adamBarID).isEmpty() &&
+                //ctx.inventory.select().id(steelBarID).isEmpty() &&
                 (!ctx.inventory.select().id(coalOreID).isEmpty() ||
-                !ctx.inventory.select().id(ironOreID).isEmpty())) {
+                 // ctx.inventory.select().id(ironOreID).isEmpty() &&
+                        ctx.inventory.select().id(adamOreID).isEmpty()) &&
+                (Math.abs(barDispenserTile[0].tile().x()-ctx.players.local().tile().x()) > 4)) {
             return State.deliverOre;
 
         } else if(!ctx.inventory.select().id(coalBagID).isEmpty() &&
                 ctx.inventory.select().id(coalOreID).isEmpty() &&
-                ctx.inventory.select().id(ironOreID).isEmpty() &&
+                // ctx.inventory.select().id(ironOreID).isEmpty() &&
+                ctx.inventory.select().id(adamOreID).isEmpty() &&
                 (Math.abs(barDispenserTile[0].tile().x()-ctx.players.local().tile().x()) <= 4)) {
             return State.collectBars;
 

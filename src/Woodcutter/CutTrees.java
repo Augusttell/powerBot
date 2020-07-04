@@ -11,6 +11,7 @@ import java.util.concurrent.Callable;
 public class CutTrees extends Common.Task{
     private int [] oakTreeIds = {10820};
     private int [] willowTreeIds = {10819};
+    private int [] mapleTreeIds = {10832};
 
     BotRandom botRandom = new BotRandom(ctx);
 
@@ -22,7 +23,7 @@ public class CutTrees extends Common.Task{
     @Override
     public boolean activate() {
         return ctx.inventory.select().count() < 28 &&
-                !ctx.objects.select().id(willowTreeIds).isEmpty() &&
+                !ctx.objects.select().id(mapleTreeIds).isEmpty() &&
                 ctx.players.local().animation() == -1;
         // if trees nearby and inventory not full  and not actively chopping
     }
@@ -34,12 +35,7 @@ public class CutTrees extends Common.Task{
 
          if(tree.inViewport()) {
              tree.interact("Chop");
-             Condition.wait(new Callable<Boolean>() {
-                 @Override
-                 public Boolean call() throws Exception {
-                     return ctx.players.local().inMotion();
-                 }
-             }, 800, 10);
+             Condition.wait(() -> !ctx.players.local().inMotion(), 800, 10);
 
              botRandom.ranInvSkillSwitch(1.9, 30000, 1000);
              botRandom.randMissClickLastPress(1.67,true,2,0,1,0);
@@ -48,12 +44,7 @@ public class CutTrees extends Common.Task{
 
          } else {
             ctx.movement.step(tree);
-             Condition.wait(new Callable<Boolean>() {
-                 @Override
-                 public Boolean call() throws Exception {
-                     return ctx.players.local().inMotion();
-                 }
-             }, 500, 100);
+             Condition.wait(() -> !ctx.players.local().inMotion(), 500, 100);
 
 
             botRandom.randMissClickLastPress(1.67,true,2,0,1,0);

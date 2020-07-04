@@ -5,6 +5,8 @@ import org.powerbot.script.Tile;
 public class Constants {
     public static int coalOreID = 453;
     public static int ironOreID = 440;
+    public static int adamOreID = 449;
+
     public static int coalBagID = 12019;
     public static int conveyerBeltID = 9100;
     public static int barDispenserID = 9093;
@@ -13,6 +15,8 @@ public class Constants {
     public static int emptyVial = 229;
 
     public static int steelBarID = 2353;
+    public static int ironBarID = 2351;
+    public static int adamBarID = 2361;
 
     public static Tile bankTile = new Tile(1948, 4957, 0);
     public static Tile conveyerBeltTile = new Tile(1942, 4967, 0);
