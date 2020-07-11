@@ -227,7 +227,7 @@ public class BlastFurnace extends PollingScript<ClientContext> implements PaintL
                         //conveyerBelt.click(true);
                         conveyerBelt.interact("Put-ore-on");
                         Condition.wait(() -> ctx.inventory.select().id(coalOreID).isEmpty(),
-                                botRandom.randInt(600, 100), 2);
+                                botRandom.randInt(600, 100), 3);
 
                         if (ctx.movement.running() == false) {
                             ctx.movement.running(true);
@@ -340,7 +340,7 @@ public class BlastFurnace extends PollingScript<ClientContext> implements PaintL
                         //conveyerBelt.click(true);
                         conveyerBelt.interact("Put-ore-on");
                         Condition.wait(() -> ctx.inventory.select().id(coalOreID).isEmpty(),
-                                botRandom.randInt(600,100), 2);
+                                botRandom.randInt(600,100), 3);
                     }
 
 
@@ -444,7 +444,7 @@ public class BlastFurnace extends PollingScript<ClientContext> implements PaintL
                 //ctx.inventory.select().id(steelBarID).isEmpty() &&
                 (!ctx.inventory.select().id(coalOreID).isEmpty() ||
                  // ctx.inventory.select().id(ironOreID).isEmpty() &&
-                        ctx.inventory.select().id(adamOreID).isEmpty()) &&
+                        !ctx.inventory.select().id(adamOreID).isEmpty()) &&
                 (Math.abs(barDispenserTile[0].tile().x()-ctx.players.local().tile().x()) > 4)) {
             return State.deliverOre;
 
